@@ -1,4 +1,4 @@
-###! All Posibles Cases  EMPLOYEES
+###! All Posibles Cases for EMPLOYEES
 
 ###* TEST CASE 1: obtener todos los empleados ✔
 GET http://localhost:1234/employees

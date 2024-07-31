@@ -1,0 +1,70 @@
+###! All Posibles Cases for Departments
+
+###* TEST CASE 1: Obtener todos los departamentos
+GET http://localhost:1234/departments
+
+
+
+###* TEST CASE 2: Obtener un departamento por nombre
+GET http://localhost:1234/departments/name/HR
+
+###* TEST CASE 2.2: Departamento no encontrado
+GET http://localhost:1234/departments/name/UnknownDepartment
+
+
+
+###* TEST CASE 3: Crear un nuevo departamento
+POST http://localhost:1234/departments
+Content-Type: application/json
+
+{
+  "name": "Marketing",
+  "totalEmployees": 10,
+  "description": "Handles all marketing activities."
+}
+
+
+###* TEST CASE 3.3: Crear un departamento con nombre duplicado
+POST http://localhost:1234/departments
+Content-Type: application/json
+
+{
+  "name": "HR",
+  "totalEmployees": 5,
+  "description": "Duplicate department name."
+}
+
+
+
+
+
+###* TEST CASE 4: Actualizar un departamento
+PATCH http://localhost:1234/departments/name/Marketing
+Content-Type: application/json
+
+{
+  "name": "Digital Marketing",
+  "totalEmployees": 15,
+  "description": "Updated description for marketing department."
+}
+
+
+###* TEST CASE 4.4: Actualizar un departamento no encontrado
+PATCH http://localhost:1234/departments/name/UnknownDepartment
+Content-Type: application/json
+
+{
+  "name": "NonExistent",
+  "totalEmployees": 0,
+  "description": "This department does not exist."
+}
+
+
+
+
+
+###* TEST CASE 5: Eliminar un departamento
+DELETE http://localhost:1234/departments/name/Marketing
+
+###* TEST CASE 5.5: Eliminar un departamento no encontrado
+DELETE http://localhost:1234/departments/name/UnknownDepartment

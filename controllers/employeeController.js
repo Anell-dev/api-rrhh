@@ -1,5 +1,4 @@
 import { validateEmployee, validatePartialEmployee } from '../schemas/employeeSchema.js'
-console.log('entro en el controller arriba')
 
 export class EmployeeController {
   constructor({ employeeModel }) {
@@ -7,9 +6,7 @@ export class EmployeeController {
   }
 
   getAll = async (req, res) => {
-    console.log('entro en el controller arriba GET ALL')
     try {
-      console.log('entro en el controller ABAJO GET ALL')
       const employees = await this.employeeModel.getAll()
       res.status(200).json(employees)
     } catch (error) {

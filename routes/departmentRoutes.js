@@ -1,13 +1,16 @@
 import { Router } from 'express'
-import { DeparmentController } from '../controllers/DeparmentController.js'
+import { DepartmentController } from '../controllers/departmentController.js'
 
-export const createDeparmentRouter = ({ deparmentModel }) => {
+export const createDepartmentRouter = ({ departmentModel }) => {
+  const departmentController = new DepartmentController({ departmentModel })
+
   const departmentRoutes = Router()
 
-  const departmentController = new DeparmentController({ deparmentModel })
-
   departmentRoutes.get('/', departmentController.getAll)
-  departmentRoutes.get('/:id')
+  departmentRoutes.get('/name/:name', departmentController.getByName)
+  departmentRoutes.post('/', departmentController.create)
+  departmentRoutes.patch('/name/:name', departmentController.updateByName)
+  departmentRoutes.delete('/name/:name', departmentController.deleteByName)
 
   return departmentRoutes
 }
