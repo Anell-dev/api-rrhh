@@ -1,30 +1,30 @@
-###! All Posibles Cases for Departments
+###^ All Posibles Cases for Departments
 
-###* TEST CASE 1: Obtener todos los departamentos
+###* TEST CASE 1: Obtener todos los departamentos ✔
 GET http://localhost:1234/departments
 
 
 
-###* TEST CASE 2: Obtener un departamento por nombre
-GET http://localhost:1234/departments/name/HR
+###* TEST CASE 2: Obtener un departamento por nombre ✔
+GET http://localhost:1234/departments/name/ventas
 
-###* TEST CASE 2.2: Departamento no encontrado
-GET http://localhost:1234/departments/name/UnknownDepartment
+###* TEST CASE 2.2: Departamento no encontrado ✔
+GET http://localhost:1234/departments/name/departamentoDesconocido
 
 
 
-###* TEST CASE 3: Crear un nuevo departamento
+###* TEST CASE 3: Crear un nuevo departamento ✔
 POST http://localhost:1234/departments
 Content-Type: application/json
 
 {
-  "name": "Marketing",
-  "totalEmployees": 10,
+  "name": "nuevo5",
+  "totalEmployees": 20000,
   "description": "Handles all marketing activities."
 }
 
 
-###* TEST CASE 3.3: Crear un departamento con nombre duplicado
+###* TEST CASE 3.3: Crear un departamento con nombre duplicado ✔
 POST http://localhost:1234/departments
 Content-Type: application/json
 
@@ -37,24 +37,24 @@ Content-Type: application/json
 
 
 
-
-###* TEST CASE 4: Actualizar un departamento
-PATCH http://localhost:1234/departments/name/Marketing
+### TODO: verificar porque lo numera diferente en la DB de 988888899900000 a 2147483647
+###* TEST CASE 4: Actualizar un departamento ✔
+PATCH http://localhost:1234/departments/name/Atención al Cliente
 Content-Type: application/json
 
 {
-  "name": "Digital Marketing",
-  "totalEmployees": 15,
-  "description": "Updated description for marketing department."
+  "name": "hr",
+  "totalEmployees": 988888899900000,
+  "description": "Updated description for hr"
 }
 
 
-###* TEST CASE 4.4: Actualizar un departamento no encontrado
-PATCH http://localhost:1234/departments/name/UnknownDepartment
+###* TEST CASE 4.4: Actualizar un departamento no encontrado ✔
+PATCH http://localhost:1234/departments/name/NonExistenttttttt2
 Content-Type: application/json
 
 {
-  "name": "NonExistent",
+  "name": "NonExistent2",
   "totalEmployees": 0,
   "description": "This department does not exist."
 }
@@ -63,8 +63,8 @@ Content-Type: application/json
 
 
 
-###* TEST CASE 5: Eliminar un departamento
-DELETE http://localhost:1234/departments/name/Marketing
+###* TEST CASE 5: Eliminar un departamento ✔
+DELETE http://localhost:1234/departments/name/nuevo5
 
-###* TEST CASE 5.5: Eliminar un departamento no encontrado
-DELETE http://localhost:1234/departments/name/UnknownDepartment
+###* TEST CASE 5.5: Eliminar un departamento no encontrado ✔
+DELETE http://localhost:1234/departments/name/UnknownDepartmenttttt

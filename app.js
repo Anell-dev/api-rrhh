@@ -27,15 +27,4 @@ export const createApp = ({ employeeModel, departmentModel }) => {
   })
 }
 
-// app.listen(PORT, async () => {
-//   try {
-//     await sequelize.authenticate()
-//     console.log('Database connected')
-//     await sequelize.sync()
-//     console.log(`App listening on http://localhost:${PORT}`)
-//   } catch (error) {
-//     console.error('Unable to connect to the database:', error)
-//   }
-// })
-
 // app.use('/roles', roleRoutes)

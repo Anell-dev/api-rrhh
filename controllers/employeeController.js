@@ -8,12 +8,16 @@ export class EmployeeController {
   getAll = async (req, res) => {
     try {
       const employees = await this.employeeModel.getAll()
+      if (employees.length === 0) {
+        res.status(200).json({ message: 'There are no employees' })
+      }
       res.status(200).json(employees)
     } catch (error) {
       res.status(500).json({ error: error.message })
     }
   }
 
+  // NOTE: I may not use this anymore
   // getAllByDepartment = async (req, res) => {
   //   try {
   //     const { departmentId } = req.params
@@ -32,37 +36,37 @@ export class EmployeeController {
   //   }
   // }
 
-  getById = async (req, res) => {
-    try {
-      const { id } = req.params
+  // getById = async (req, res) => {
+  //   try {
+  //     const { id } = req.params
 
-      const employee = await this.employeeModel.getById(id)
+  //     const employee = await this.employeeModel.getById(id)
 
-      if (employee) {
-        res.status(200).json(employee)
-      } else {
-        res.status(404).json({ error: 'Employee not found' })
-      }
-    } catch (error) {
-      res.status(500).json({ error: error.message })
-    }
-  }
+  //     if (employee) {
+  //       res.status(200).json(employee)
+  //     } else {
+  //       res.status(404).json({ error: 'Employee not found' })
+  //     }
+  //   } catch (error) {
+  //     res.status(500).json({ error: error.message })
+  //   }
+  // }
 
-  getByName = async (req, res) => {
-    try {
-      const { name } = req.params
+  // getByName = async (req, res) => {
+  //   try {
+  //     const { name } = req.params
 
-      const employee = await this.employeeModel.getByName(name)
+  //     const employee = await this.employeeModel.getByName(name)
 
-      if (employee.length > 0) {
-        return res.status(200).json(employee)
-      } else {
-        return res.status(404).json({ error: 'Employee not found' })
-      }
-    } catch (error) {
-      return res.status(500).json({ error: error.message })
-    }
-  }
+  //     if (employee.length > 0) {
+  //       return res.status(200).json(employee)
+  //     } else {
+  //       return res.status(404).json({ error: 'Employee not found' })
+  //     }
+  //   } catch (error) {
+  //     return res.status(500).json({ error: error.message })
+  //   }
+  // }
 
   getByUserName = async (req, res) => {
     try {
