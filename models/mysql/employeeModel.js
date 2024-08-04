@@ -10,7 +10,7 @@ export class EmployeeModel {
   static async getById(id) {
     const connection = await getConnection()
     const [rows] = await connection.execute('SELECT * FROM employees WHERE id = ?', [id])
-    return rows[0]
+    return rows
   }
 
   static async getByName(name) {
@@ -22,7 +22,45 @@ export class EmployeeModel {
   static async getByUserName(username) {
     const connection = await getConnection()
     const [rows] = await connection.execute('SELECT * FROM employees WHERE username = ?', [username])
-    return rows[0]
+    return rows
+  }
+
+  static async getByDepartment(department) {
+    const connection = await getConnection()
+
+    // Obtener el ID del departamento
+    const [departmentRows] = await connection.execute('SELECT id FROM departments WHERE name = ?', [department])
+    if (departmentRows.length === 0) {
+      throw new Error('Department not found')
+    }
+    const departmentId = departmentRows[0].id
+
+    // Obtener empleados por el ID del departamento
+    const [employeeRows] = await connection.execute('SELECT * FROM employees WHERE department = ?', [departmentId])
+
+    return employeeRows
+  }
+
+  static async getByRole(roleName) {
+    const connection = await getConnection()
+
+    // Obtener el ID del rol
+    const [roleRows] = await connection.execute('SELECT id FROM roles WHERE name = ?', [roleName])
+    if (roleRows.length === 0) {
+      throw new Error('Role not found')
+    }
+    const roleId = roleRows[0].id
+
+    // Obtener empleados por el ID del rol
+    const [employeeRows] = await connection.execute('SELECT * FROM employees WHERE role = ?', [roleId])
+
+    return employeeRows
+  }
+
+  static async getByAge(age) {
+    const connection = await getConnection()
+    const [rows] = await connection.execute('SELECT * FROM employees WHERE age = ?', [age])
+    return rows
   }
 
   static async create(employee) {

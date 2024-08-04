@@ -6,6 +6,10 @@ import { createDepartmentRouter } from './routes/departmentRoutes.js'
 
 dotenv.config()
 
+// TODO: role route, controller, model, schema, test
+// TODO: front-end
+// TODO: deploy
+
 export const createApp = ({ employeeModel, departmentModel }) => {
   const app = express()
 

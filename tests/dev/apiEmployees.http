@@ -1,0 +1,134 @@
+###^ All Posibles Cases for EMPLOYEES
+
+###* TEST CASE 1: obtener todos los empleados ✔
+GET http://localhost:1234/employees
+
+
+
+
+###* TEST CASE 2: Obtener empleados por ID ✔
+GET http://localhost:1234/employees/filter?filter=id&value=8-2345-6789
+
+###* TEST CASE 2.2: Obtener empleados por ID que no existe ✔
+GET http://localhost:1234/employees/filter?filter=id&value=9-235-6789
+
+###* TEST CASE 3: Obtener empleados por nombre ✔
+GET http://localhost:1234/employees/filter?filter=name&value=Juan
+
+###* TEST CASE 3.3: Obtener empleados por nombre que no existe ✔
+GET http://localhost:1234/employees/filter?filter=name&value=edjed
+
+###* TEST CASE 4: Obtener empleados por nombre de usuario ✔
+GET http://localhost:1234/employees/filter?filter=username&value=ana.martinez
+
+###* TEST CASE 4.4: Obtener empleados por nombre de usuario que no existe ✔
+GET http://localhost:1234/employees/filter?filter=username&value=pedro.gonzalez
+
+###* TEST CASE 5: Obtener empleados por departamento ✔
+GET http://localhost:1234/employees/filter?filter=department&value=ventas
+
+###* TEST CASE 5.5: Obtener empleados por departamento que no existe ✔
+GET http://localhost:1234/employees/filter?filter=department&value=unknowDepartment
+
+###* TEST CASE 6: Obtener empleados por rol ✔
+GET http://localhost:1234/employees/filter?filter=role&value=contador
+
+###* TEST CASE 6.6: Obtener empleados por rol que no existe ✔
+GET http://localhost:1234/employees/filter?filter=role&value=sistemas
+
+###* TEST CASE 7: Obtener empleados por edad ✔
+GET http://localhost:1234/employees/filter?filter=age&value=30
+
+###* TEST CASE 7.7: Obtener empleados por edad que no existe ✔
+GET http://localhost:1234/employees/filter?filter=age&value=99
+
+###* TEST CASE 9: Intentar filtrar con tipo de filtro inválido ✔
+GET http://localhost:1234/employees/filter?filter=invalidFilter&value=test
+
+###* TEST CASE 10: Intentar filtrar sin especificar el tipo de filtro ✔
+GET http://localhost:1234/employees/filter?value=test
+
+###* TEST CASE 11: Intentar filtrar sin especificar el valor del filtro ✔
+GET http://localhost:1234/employees/filter?filter=name
+
+
+
+
+###* TEST CASE 12: Crear un nuevo empleado ✔
+POST http://localhost:1234/employees
+Content-Type: application/json
+
+{
+  //  TODO: hacer phone number unique in database
+  "id": "8-888-8888",
+  "first_name": "Luis",
+  "second_name": "Antonio",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "1900",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+
+
+
+
+###* TEST CASE 13: Actualizar un empleado ✔
+PATCH http://localhost:1234/employees/id/8-888-8888
+Content-Type: application/json
+
+{
+  "id": "8-888-8888",
+  "first_name": "Luissssssss",
+  "second_name": "Antonioooooo",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "30000",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+###* TEST CASE 13.1 : Actualizar empleado que no existe ✔
+PATCH http://localhost:1234/employees/id/8-0000-0000
+Content-Type: application/json
+
+{
+  "id": "8-888-8888",
+  "first_name": "Luisssssssssss",
+  "second_name": "Antonioaaaaaaaaaaaaaaaaaaaaaa",
+  "first_lastName": "Salazar",
+  "second_lastName": "Mora",
+  "age": 29,
+  "address": "Calle 10",
+  "email": "luis.salazar@example.com",
+  "phone_number": "+507 111-2233",
+  "hire_date": "2024-07-27",
+  "salary": "30000",
+  "department": "1",
+  "role": "2",
+  "username": "luis.salazar"
+}
+
+
+
+
+
+
+###* TEST CASE 14: Eliminar un empleado ✔
+DELETE http://localhost:1234/employees/id/8-888-8888
+
+###* TEST CASE 14.1: Eliminar empleado que no existe ✔
+DELETE http://localhost:1234/employees/id/8-0000-000088

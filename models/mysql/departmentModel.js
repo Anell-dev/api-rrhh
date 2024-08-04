@@ -7,12 +7,6 @@ export class DepartmentModel {
     return rows
   }
 
-  // static async getByName(name) {
-  //   const connection = await getConnection()
-  //   const [rows] = await connection.execute('SELECT * FROM departments WHERE name = ?', [name])
-  //   return rows
-  // }
-
   static async getDepartmentAndEmployeesByName(name) {
     const connection = await getConnection()
 

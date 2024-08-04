@@ -1,4 +1,6 @@
 import { validateEmployee, validatePartialEmployee } from '../schemas/employeeSchema.js'
+// import { validateFilter } from '../schemas/filterSchema.js'
+import { filterSchema, validateFilterAndValue } from '../schemas/filterSchema.js'
 
 export class EmployeeController {
   constructor({ employeeModel }) {
@@ -17,56 +19,53 @@ export class EmployeeController {
     }
   }
 
-  // NOTE: I may not use this anymore
-  // getAllByDepartment = async (req, res) => {
-  //   try {
-  //     const { departmentId } = req.params
+  filterEmployees = async (req, res) => {
+    const { filter, value } = req.query
 
-  //     const employees = await this.employeeModel.getAllByDepartment(departmentId)
+    const filterResult = filterSchema.safeParse(filter)
+    if (!filterResult.success) {
+      return res.status(400).json({ message: 'Invalid filter type' })
+    }
 
-  //     if (employees.length > 0) {
-  //       res.status(200).json(employees)
-  //     } else {
-  //       res.status(404).json({ error: 'Employee in department not found' })
-  //     }
+    const valueResult = validateFilterAndValue(filter, value)
+    if (!valueResult.success) {
+      return res.status(400).json({ message: valueResult.error })
+    }
 
-  //     and add deparment not found
-  //   } catch (error) {
-  //     res.status(500).json({ error: error.message })
-  //   }
-  // }
+    try {
+      let employees
+      switch (filter) {
+        case 'id':
+          employees = await this.employeeModel.getById(valueResult.value)
+          break
+        case 'name':
+          employees = await this.employeeModel.getByName(valueResult.value)
+          break
+        case 'username':
+          employees = await this.employeeModel.getByUserName(valueResult.value)
+          break
+        case 'department':
+          employees = await this.employeeModel.getByDepartment(valueResult.value)
+          break
+        case 'role':
+          employees = await this.employeeModel.getByRole(valueResult.value)
+          break
+        case 'age':
+          employees = await this.employeeModel.getByAge(valueResult.value)
+          break
+        default:
+          return res.status(400).json({ message: 'Invalid filter type' })
+      }
 
-  // getById = async (req, res) => {
-  //   try {
-  //     const { id } = req.params
+      if (!employees || employees.length === 0) {
+        return res.status(404).json({ message: 'No employees found' })
+      }
 
-  //     const employee = await this.employeeModel.getById(id)
-
-  //     if (employee) {
-  //       res.status(200).json(employee)
-  //     } else {
-  //       res.status(404).json({ error: 'Employee not found' })
-  //     }
-  //   } catch (error) {
-  //     res.status(500).json({ error: error.message })
-  //   }
-  // }
-
-  // getByName = async (req, res) => {
-  //   try {
-  //     const { name } = req.params
-
-  //     const employee = await this.employeeModel.getByName(name)
-
-  //     if (employee.length > 0) {
-  //       return res.status(200).json(employee)
-  //     } else {
-  //       return res.status(404).json({ error: 'Employee not found' })
-  //     }
-  //   } catch (error) {
-  //     return res.status(500).json({ error: error.message })
-  //   }
-  // }
+      res.status(200).json(employees)
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
+  }
 
   getByUserName = async (req, res) => {
     try {
